@@ -1,3 +1,13 @@
+# Evented Twitter
+
+branches:
+
+- wo-cqrs: without CQRS but reducer
+- w-cqrs: with CQRS without reducers
+- schemas: schemas validations
+- declarative
+
+
 # Environment
 
 I use docker & docker-compose as my dev environment. 
