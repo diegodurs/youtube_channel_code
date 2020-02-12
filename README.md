@@ -2,6 +2,7 @@
 
 branches:
 
+- minimalist
 - wo-cqrs: without CQRS but reducer
 - w-cqrs: with CQRS without reducers
 - schemas: schemas validations

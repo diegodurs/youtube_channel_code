@@ -3,9 +3,8 @@ module Nuago
   class EventStore
     @@repository = []
     
-    def self.save(event)
-      event.persisted!(Nuago.new_uuid)
-      @@repository << event
+    def self.insert_events(events)
+      @@repository.concat(events)
     end
 
     def self.by_aggregate_key(aggregate_key)
@@ -14,10 +13,14 @@ module Nuago
       end
     end
 
-    def self.by_message_name(name)
+    def self.by_event_name(event_name)
       @@repository.select do |event|
         event.event_name == event_name
       end
+    end
+
+    def self.all
+      @@repository
     end
   end
 end

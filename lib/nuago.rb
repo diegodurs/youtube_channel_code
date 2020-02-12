@@ -1,13 +1,14 @@
 require 'active_support/core_ext/string'
 require 'securerandom'
 
+require 'nuago/generic_event'
+require 'nuago/event_store'
+
+require 'byebug'
+require 'pp'
+
 module Nuago
-
-  def new_uuid
+  def self.new_uuid
     SecureRandom.uuid.gsub('-', '')
-  end
-
-  def now
-    Time.now
   end
 end

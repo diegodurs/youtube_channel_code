@@ -1,4 +1,5 @@
 require 'minitest/autorun'
+require 'evented_twitter'
 
 module EventedTwitterFeatureTests
   
@@ -8,21 +9,20 @@ module EventedTwitterFeatureTests
     def test_when_I_tweet_something_I_can_see_it_in_my_profile_feed
       # Given (nothing)
       # When (command)
-      user_id = 1
-      command = Tweetes::Commands::TweetThis.new(
-          tweet: {
-            user_id: user_id,
-            original_text: "This is my first test Tweet"
-          }
-        )
+      user_id = 123
 
-      Tweetes.apply_command(command)
+      EventedTwitter.apply_command(:tweet_this, {
+        tweet: {
+          user_id: user_id,
+          text: "This is my first Tweet"
+        }
+      })
       
       # Then (state)
-      tweets = Tweetes.get_user_tweets(user_id)
+      tweets = EventedTwitter.make_query(:user_tweets, {user_id: 123})
       refute tweets.empty?, "one tweet exists"
-      assert_equal tweets.first[:original_text], "This is my first test Tweet"
+      pp tweets
+      assert_equal tweets.first[:text], "This is my first Tweet"
     end
   end
-  
 end
