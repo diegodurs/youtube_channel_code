@@ -69,7 +69,7 @@ module NuagoTests
 
       # Assign
 
-      def test_fetch_with_array_inside_hash
+      def test_assign_with_array_inside_hash
         assert_equal 'hi', array_inside_hash.deep_fetch('entries.0.bar')
         new_data = array_inside_hash.deep_assign('entries.0.bar', 'bye')
         assert_equal 'bye', new_data.deep_fetch('entries.0.bar')

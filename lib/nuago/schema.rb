@@ -3,12 +3,12 @@ require 'nuago/core_ext/deep_each'
 module Nuago
   class Schema
 
-    def self.validate_presence_and_type(schema: , data:)
+    def self.validate(schema: , data:)
       errors = []
       schema.deep_each do |k, datatype| 
         value = data.deep_fetch(k)
         
-        if value.nil?
+        if value.nil? && !datatype.can_be_null?
           errors << [k, "must be present"]
         elsif !datatype.valid?(value)
           errors << [k, "`#{value}` is an invalid #{datatype}"]
@@ -30,7 +30,18 @@ module Nuago
 
     class DataType
       def initialize(options = {})
-        @options = options
+        @options = {null: false}.merge(options)
+      end
+
+      def can_be_null?
+        @options[:null]
+      end
+
+      def valid?(data)
+        if !@options[:null]
+          return false if data.nil? || data.empty?
+        end
+        true
       end
     end
     

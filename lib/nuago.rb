@@ -3,6 +3,8 @@ require 'securerandom'
 require 'nuago/event_store'
 require 'nuago/generic_event'
 require 'nuago/reducer'
+require 'nuago/schema'
+require 'nuago/aggregate'
 
 module Nuago
 

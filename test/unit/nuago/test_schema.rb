@@ -69,7 +69,7 @@ module NuagoTests
           }
         }
         
-        errors = Nuago::Schema.validate_presence_and_type(data: data, schema: schema)
+        errors = Nuago::Schema.validate(data: data, schema: schema)
         
         # Then
         assert_predicate errors, :empty?
@@ -82,7 +82,7 @@ module NuagoTests
           }
         }
         
-        errors = Nuago::Schema.validate_presence_and_type(data: data, schema: schema)
+        errors = Nuago::Schema.validate(data: data, schema: schema)
         
         # Then
         refute_predicate errors, :empty?
@@ -100,7 +100,7 @@ module NuagoTests
           }
         }
         
-        errors = Nuago::Schema.validate_presence_and_type(data: data, schema: schema)
+        errors = Nuago::Schema.validate(data: data, schema: schema)
         
         # Then
         refute_predicate errors, :empty?

@@ -1,3 +1,4 @@
+
 module Nuago
   class GenericEvent
     
@@ -8,12 +9,16 @@ module Nuago
       @metadata = metadata
     end
 
-    def aggregate_key
-      metadata[:aggregate_key]
+    def aggregate_id
+      metadata[:aggregate_id]
     end
 
     def aggregate_type
       metadata[:aggregate_type]
+    end
+
+    def aggregate_type_to_sym
+      aggregate_type.underscore.to_sym
     end
 
     def aggregate_version

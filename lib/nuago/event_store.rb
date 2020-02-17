@@ -16,18 +16,30 @@ module Nuago
       end
 
       @@repository.concat(events)
+
+      # puts "Saved #{events}"
+
+      events
     end
 
-    def self.by_aggregate_key(aggregate_key)
-      @@repository.select do |event|
-        event.aggregate_key == aggregate_key
+    def self.by_aggregate_id(aggregate_id)
+      events = @@repository.select do |event|
+        event.aggregate_id == aggregate_id
       end
+
+      # puts "loaded #{events.size} for #{aggregate_id}"
+
+      events
     end
 
     def self.by_event_name(event_name)
       @@repository.select do |event|
         event.event_name == event_name
       end
+    end
+
+    def self.clear!
+      @@repository = []
     end
   end
 end

@@ -9,7 +9,9 @@ module EventedTwitter
       entities = EventedTwitter.reduce_entities_from_events(events)
 
       tweets = entities.map {|_, h| h[:state] }
-      tweets.sort_by {|tweet| tweet[:created_at] }
+      tweets.sort_by! {|tweet| tweet[:created_at] }
+
+      return tweets
     end
 
     def self.project(event)
