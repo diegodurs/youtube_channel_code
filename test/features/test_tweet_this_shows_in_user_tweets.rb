@@ -10,14 +10,14 @@ module EventedTwitterFeatureTests
     def test_when_I_tweet_something_I_can_see_it_in_my_profile_feed
       # Given (nothing)
       # When (command)
-      user_id = 1
+      user_id = SecureRandom.uuid
 
       EventedTwitter.apply_command(
         command_name: :tweet_this, 
         data: {
           tweet: {
             user_id: user_id,
-            original_text: "This is my first test Tweet"
+            text: "This is my first test Tweet"
           }
         }
       )
@@ -25,11 +25,8 @@ module EventedTwitterFeatureTests
       # Then (state)
       tweets = EventedTwitter.handle_query(query_name: 'user_tweets', data: {user_id: user_id})
 
-      puts tweets
-
       refute tweets.empty?, "one tweet exists"
-      assert_equal tweets.first[:tweet][:original_text], "This is my first test Tweet"
+      assert_equal tweets.first[:tweet][:text], "This is my first test Tweet"
     end
   end
-  
 end

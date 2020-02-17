@@ -16,8 +16,6 @@ module Nuago
       end
 
       @@repository.concat(events)
-
-      puts "Saved events: #{events}"
     end
 
     def self.by_aggregate_key(aggregate_key)

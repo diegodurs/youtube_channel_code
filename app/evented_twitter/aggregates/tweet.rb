@@ -10,27 +10,42 @@ module EventedTwitter
         new(data[:tweet][:tweet_id]).tweet_this(data)
       end
 
-
       # could be unpublished_events, unsaved_events, but simpler is better
       attr_reader :new_events
 
-      def initialize(aggregate_key)
-        @aggregate_key = aggregate_key
-        @aggregate_version = 0 # 1 will be the first event / version
+      def initialize(aggregate_id)
+        @aggregate_id = aggregate_id
+        @aggregate_version = -1 # 0 will be the first aggregate_version
+        @new_version = nil
         @new_events = []
       end
 
       def tweet_this(data)
+        schema = {
+          tweet: {
+            user_id: Nuago::Schema::UUID.new, 
+            text: Nuago::Schema::String.new(limit: 283)
+          }
+        }
+        
+        errors = Nuago::Schema.validate_presence_and_type(data: data, schema: schema)
+        raise ArgumentError, "Schema errors: #{errors}" if errors.any?
+        clean_data = Nuago::Schema.clean_unknwon_keys(data: data, schema: schema)
+        
+        add_event :tweet_was_tweeted, clean_data
+        
+        self
+      end
+
+      def add_event(event_name, data)
         @new_version = @aggregate_version + 1
         
         metadata = {
-          aggregate_key: @aggregate_key, 
+          aggregate_id: @aggregate_id, 
           aggregate_type: 'Tweet',
           aggregate_version: @new_version
         }
         @new_events << Nuago::GenericEvent.new(:tweet_was_tweeted, data, metadata)
-
-        self
       end
 
       # it's either a causation_message, or a request_context,

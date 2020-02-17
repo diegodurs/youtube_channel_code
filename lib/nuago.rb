@@ -1,6 +1,5 @@
 require 'active_support/core_ext/string'
 require 'securerandom'
-require 'nuago/event'
 require 'nuago/event_store'
 require 'nuago/generic_event'
 require 'nuago/reducer'

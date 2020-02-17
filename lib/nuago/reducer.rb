@@ -27,8 +27,6 @@ module Nuago
       state[:created_at] ||= event.timestamp
       state[:updated_at] = event.timestamp
       
-      state[:current_user_id] = event.current_user_id if event.current_user_id
-      
       state = fct.call(event, state)
     end
   end
