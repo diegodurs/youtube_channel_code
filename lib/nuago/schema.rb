@@ -26,6 +26,14 @@ module Nuago
       clean_data
     end
 
+    def self.unknwon_keys(data: , schema:)
+      _unknwon_keys = []
+      data.deep_each do |k, _value| 
+        _unknwon_keys << k unless schema.deep_fetch(k)
+      end
+      _unknwon_keys
+    end
+
     # --- Datatypes ---
 
     class DataType

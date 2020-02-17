@@ -1,16 +1,17 @@
 module EventedTwitter
   module Aggregates
     class Tweet < Nuago::Aggregate
-
-      def self.tweet_this(data)
-        schema = {
+      Schemas = {
+        tweet_was_tweeted: {
           tweet: {
             user_id: Nuago::Schema::UUID.new, 
             text: Nuago::Schema::String.new(limit: 283)
           }
         }
-        
-        data = validate_schema!(data: data, schema: schema)
+      }
+      
+      def self.tweet_this(data)
+        data = validate_schema!(data: data, schema: Schemas[:tweet_was_tweeted])
         new(Nuago.new_uuid).tweet_this(data)
       end
 
