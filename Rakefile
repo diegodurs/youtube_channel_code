@@ -17,3 +17,14 @@ task :console do
   ARGV.clear
   IRB.start
 end
+
+require "rake/testtask"
+
+Rake::TestTask.new(:test) do |t|
+  t.libs << "app"
+  t.libs << "test"
+  t.libs << "lib"
+  t.test_files = FileList["test/**/test_*.rb"]
+end
+
+task :default => :test

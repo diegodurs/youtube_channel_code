@@ -14,7 +14,7 @@ module Nuago
 
     def self.reduce(state: {}, events: [], fcts: {})
       events.each do |event|
-        state = reduce_step(state, event, reduce_fcts[event.symbolized_name])
+        state = reduce_step(state, event, fcts[event.event_name])
       end
       state
     end
@@ -22,6 +22,7 @@ module Nuago
     def self.reduce_step(state, event, fct)
       state[:aggregate_key] ||= event.aggregate_key
       state[:aggregate_version] = event.aggregate_version
+      state[:aggregate_type] = event.aggregate_type
       
       state[:created_at] ||= event.timestamp
       state[:updated_at] = event.timestamp

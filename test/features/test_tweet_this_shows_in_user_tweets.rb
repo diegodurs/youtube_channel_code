@@ -1,4 +1,6 @@
+require 'evented_twitter'
 require 'minitest/autorun'
+require 'byebug'
 
 module EventedTwitterFeatureTests
   
@@ -9,19 +11,24 @@ module EventedTwitterFeatureTests
       # Given (nothing)
       # When (command)
       user_id = 1
-      command = Tweetes::Commands::TweetThis.new(
+
+      EventedTwitter.apply_command(
+        command_name: :tweet_this, 
+        data: {
           tweet: {
             user_id: user_id,
             original_text: "This is my first test Tweet"
           }
-        )
-
-      Tweetes.apply_command(command)
+        }
+      )
       
       # Then (state)
-      tweets = Tweetes.get_user_tweets(user_id)
+      tweets = EventedTwitter.handle_query(query_name: 'user_tweets', data: {user_id: user_id})
+
+      puts tweets
+
       refute tweets.empty?, "one tweet exists"
-      assert_equal tweets.first[:original_text], "This is my first test Tweet"
+      assert_equal tweets.first[:tweet][:original_text], "This is my first test Tweet"
     end
   end
   

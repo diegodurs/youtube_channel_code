@@ -1,6 +1,6 @@
 module EventedTwitter
   module Aggregates
-    module Tweet
+    class Tweet
       class TweetWasTweeted < Nuago::Event
         # must_validate 'tweet text must be non empty' do
         #   tweet.tweet_txt.size > 0

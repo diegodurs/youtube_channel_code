@@ -1,6 +1,6 @@
 module EventedTwitter
   module Aggregates
-    module Tweet
+    class Tweet
       class Reducer
         def self.reduce(events)
           state = Nuago::Reducer.init_state
@@ -11,7 +11,7 @@ module EventedTwitter
         def self.reduce_fcts
           {
             tweet_was_tweeted: -> (event, state) {
-              event.payload.each do |k, val|
+              event.data.each do |k, val|
                 state[k] = val
               end
             }

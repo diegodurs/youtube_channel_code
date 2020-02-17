@@ -1,4 +1,6 @@
 module Nuago
+  class Message
+  end
   class Event < Message
     extend Forwardable
 
@@ -6,9 +8,6 @@ module Nuago
       :aggregate_key, :aggregate_type, :aggregate_version,
       :timestamp, 
       :message_id, :causation_id, :correlation_id
-
-    attr_accessor :aggregate_key
-    attr_accessor :timestamp
 
     def initialize(data, metadata = {})
       @data = data
